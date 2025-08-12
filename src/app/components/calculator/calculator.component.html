@@ -1,0 +1,45 @@
+<div class="calculator">
+  <mat-card class="example-card" appearance="outlined">
+    <div class="display">
+      {{ (calculator$ | async)?.expression || (calculator$ | async)?.currentNumber }}
+    </div>
+    <mat-card-actions>
+      <div class="buttons">
+        <div class="row">
+          <button mat-button (click)="onClear()">C</button>
+          <button mat-button class="operation" (click)="onOperator('/')">÷</button>
+          <button mat-button class="operation" (click)="onOperator('*')">×</button>
+          <button mat-button (click)="onDelete()">DEL</button>
+        </div>
+
+        <div class="row">
+          <button mat-button (click)="onNumber('7')">7</button>
+          <button mat-button (click)="onNumber('8')">8</button>
+          <button mat-button (click)="onNumber('9')">9</button>
+          <button mat-button class="operation" (click)="onOperator('-')">−</button>
+        </div>
+
+        <div class="row">
+          <button mat-button (click)="onNumber('4')">4</button>
+          <button mat-button (click)="onNumber('5')">5</button>
+          <button mat-button (click)="onNumber('6')">6</button>
+          <button mat-button class="operation" (click)="onOperator('+')">+</button>
+        </div>
+
+        <div class="row">
+          <button mat-button (click)="onNumber('1')">1</button>
+          <button mat-button (click)="onNumber('2')">2</button>
+          <button mat-button (click)="onNumber('3')">3</button>
+          <button mat-button class="operation"   (click)="onCalculate()">=</button>
+        </div>
+
+        <div class="row-zero">
+          <button mat-button (click)="onNumber('0')">0</button>
+          <button mat-button (click)="onNumber('00')">00</button>
+          <button mat-button (click)="onNumber('.')">.</button>
+        </div>
+
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
