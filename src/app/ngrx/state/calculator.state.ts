@@ -1,10 +1,4 @@
-export interface CalculatorState {
-  currentNumber: string;
-  previousNumber: string;
-  operator: string;
-  result: string;
-  expression: string;
-}
+import {CalculatorState} from '../../models/number.model';
 
 export const initialState: CalculatorState = {
   currentNumber: '0',

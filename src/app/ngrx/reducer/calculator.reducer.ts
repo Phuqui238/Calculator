@@ -1,78 +1,71 @@
 import { createReducer, on } from '@ngrx/store';
 import * as CalculatorActions from '../actions/calculator.actions';
-import { CalculatorState, initialState } from '../state/calculator.state';
+import {initialState} from '../state/calculator.state';
 
 export const calculatorReducer = createReducer(
   initialState,
 
   on(CalculatorActions.enterNumber, (state, { number }) => {
-    const isStartingNewNumber = state.operator && state.currentNumber === state.previousNumber;
-
-    if (number === '.' && state.currentNumber.includes('.')) {
-      return state;
-    }
-
-    const newCurrent = isStartingNewNumber
-      ? number.toString()
-      : (state.currentNumber === '0' ? number.toString() : state.currentNumber + number.toString());
-
-    const newExpression = state.operator
-      ? `${state.previousNumber} ${state.operator} ${newCurrent}`
-      : newCurrent;
+    const newCurrentNumber =
+      state.currentNumber === '0' ? number.toString() : state.currentNumber + number.toString();
 
     return {
       ...state,
-      currentNumber: newCurrent,
-      expression: newExpression
+      currentNumber: newCurrentNumber,
+      expression: newCurrentNumber,
     };
   }),
 
   on(CalculatorActions.enterOperator, (state, { operator }) => ({
     ...state,
     previousNumber: state.currentNumber,
-    operator,
-    expression: `${state.currentNumber} ${operator}`
+    operator: operator,
+    currentNumber: '0',
+    expression: `${state.currentNumber} ${operator}`,
   })),
+
 
   on(CalculatorActions.calculateResult, (state) => {
     const prev = parseFloat(state.previousNumber);
     const current = parseFloat(state.currentNumber);
-    let res = 0;
+    let result = 0;
+
     switch (state.operator) {
-      case '+': res = prev + current; break;
-      case '-': res = prev - current; break;
-      case '*': res = prev * current; break;
-      case '/': res = current !== 0 ? prev / current : NaN; break;
+      case '+': result = prev + current; break;
+      case '-': result = prev - current; break;
+      case '*': result = prev * current; break;
+      case '/': result = current !== 0 ? prev / current : NaN; break;
       default: return state;
     }
+
     return {
       ...state,
-      result: res.toString(),
-      currentNumber: res.toString(),
+      currentNumber: result.toString(),
       previousNumber: '0',
       operator: '',
-      expression: `${state.previousNumber} ${state.operator} ${state.currentNumber} = ${res}`
+      expression: '',
     };
   }),
+
 
   on(CalculatorActions.deleteNumber, (state) => {
     if (state.currentNumber.length <= 1) {
       return {
         ...state,
         currentNumber: '0',
-        expression: ''
+        expression: '',
       };
     }
+
     const newCurrent = state.currentNumber.slice(0, -1);
-    const newExpression = state.operator
-      ? `${state.previousNumber} ${state.operator} ${newCurrent}`
-      : newCurrent;
+
     return {
       ...state,
       currentNumber: newCurrent,
-      expression: newExpression
+      expression: newCurrent,
     };
   }),
+
 
   on(CalculatorActions.clear, () => initialState)
 );

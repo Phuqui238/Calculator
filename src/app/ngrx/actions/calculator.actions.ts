@@ -1,4 +1,4 @@
-import {ActionCreator, createAction, props} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 
 export const enterNumber = createAction('[Calculator] Enter Number',
   props<{ number: string }>()
@@ -13,4 +13,4 @@ export const calculateResult = createAction('[Calculator] Calculate Result');
 
 export const clear = createAction('[Calculator] Clear');
 
-export const deleteNumber = createAction('[Calculator] Delete Number');
+export const deleteNumber = createAction('[Calculator] Delete');
